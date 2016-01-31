@@ -30,13 +30,3 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP Rlibcmaes_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    __result = Rcpp::wrap(rcpp_hello_world());
-    return __result;
-END_RCPP
-}
