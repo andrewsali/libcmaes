@@ -23,13 +23,11 @@
 #define EO_MATRIX_H
 
 #include <algorithm>
-#include <Eigen/Dense>
+#include "RcppEigen.h"
 #include <stdlib.h>
 
 typedef Eigen::MatrixXd dMat; // declares a column-major non-sparse matrix type of double
 typedef Eigen::VectorXd dVec; // declares a vector of double.
-
-#include <unsupported/Eigen/MatrixFunctions>
 
 inline void removeRow(dMat& matrix, unsigned int rowToRemove)
 {
@@ -55,7 +53,7 @@ inline void removeColumn(dMat& matrix, unsigned int colToRemove)
 
 inline void removeElement(dVec &vec, unsigned int k)
 {
-  if (k >= vec.size())
+  if ((int) k >= vec.size())
     return;
   std::copy(vec.data()+k+1,vec.data()+vec.size(),vec.data()+k);
   vec.conservativeResize(vec.size()-1);
@@ -63,7 +61,7 @@ inline void removeElement(dVec &vec, unsigned int k)
 
 inline void addElement(dVec &vec, unsigned int k, const double &xk)
 {
-  if (k >= vec.size()+1)
+  if ((int) k >= vec.size()+1)
     return;
   vec.conservativeResize(vec.size()+1);
   std::copy(vec.data()+k,vec.data()+vec.size()-1,vec.data()+k+1);

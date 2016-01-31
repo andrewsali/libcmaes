@@ -28,6 +28,9 @@
 
 namespace libcmaes
 {
+  // fitness function that returns for blocks
+  typedef std::function<Rcpp::NumericVector (const double*,const int N, const int M)> BlockFitFunc;
+
   /**
    * \brief Parameters for various flavors of the CMA-ES algorithm.
    */
@@ -63,7 +66,8 @@ namespace libcmaes
 		    const double &sigma,
 		    const int &lambda=-1,
 		    const uint64_t &seed=0,
-		    const TGenoPheno &gp=TGenoPheno());
+		    const TGenoPheno &gp=TGenoPheno(),
+        const BlockFitFunc &blockfun=[](const double*,const int N, const int M){return 0;});
       
       /**
        * \brief Constructor.
@@ -106,6 +110,11 @@ namespace libcmaes
       
       void reset_as_fixed(const int &k);
       
+      // set print frequency
+      void set_traceFreq(const int &traceFreq) {
+        this->_traceFreq = traceFreq;
+      }
+      
       /**
        * \brief adapt parameters for noisy objective function.
        */
@@ -141,13 +150,16 @@ namespace libcmaes
 	std::map<std::string,int>::const_iterator mit;
 	if ((mit = Parameters<TGenoPheno>::_algos.find(algo))!=Parameters<TGenoPheno>::_algos.end())
 	  Parameters<TGenoPheno>::_algo = (*mit).second;
-	else LOG(ERROR) << "unknown algorithm " << algo << std::endl;
+	else LOG(ERRORcma) << "unknown algorithm " << algo << std::endl;
 	if (algo.find("sep")!=std::string::npos)
 	  set_sep();
 	if (algo.find("vd")!=std::string::npos)
 	  set_vd();
       }
 
+      int get_traceFreq() const {
+        return _traceFreq;
+      }
       /**
        * \brief returns initial sigma value
        * @return initial sigma value
@@ -322,6 +334,10 @@ namespace libcmaes
       bool _initial_elitist = false; /**< re-inject x0. */
       bool _initial_elitist_on_restart = false; /**< activate the restart from and re-injection of the best seen solution if not the final one. */
       
+      // frequency with which we print trace
+      int _traceFreq = 1;
+      
+      BlockFitFunc _blockfunc;
       // stopping criteria
       std::map<int,bool> _stoppingcrit; /**< control list of stopping criteria. */
     };
