@@ -9,11 +9,27 @@ using namespace libcmaes;
 ProgressFunc<CMAParameters<GenoPheno<pwqBoundStrategy>>,CMASolutions> progress_fun = [](const CMAParameters<GenoPheno<pwqBoundStrategy>> &cmaparams, const CMASolutions &cmasols)
 {
   if ((cmasols.niter()+1) % cmaparams.get_traceFreq() == 0) {
-    cmasols.print(std::cerr,0,cmaparams.get_gp()) << std::endl;
+    cmasols.print(Rcout,0,cmaparams.get_gp()) << std::endl;
   }
   return 0;
 };
 
+//' Rcpp function that calls the libcmaes library
+//' @param x0 The initial start vector
+//' @param sigma The initial standard deviation
+//' @param optimFun The original R function
+//' @param optimFunBlock The 'block' version of the R function (given multiple vectors returns a vector of fitness values)
+//' @param lowerB Lower bound vector
+//' @param upperB Upper bound vector
+//' @param cmaAlgo Integer, determining the cma-es algorithm to run
+//' @param lambda The initial population size
+//' @param maxEvals The maximum number of function calls to allow
+//' @param xtol The x-convergence tolerance
+//' @param ftol The function value convergence tolerance
+//' @param traceFreq How often should we print out optimization iterations
+//' @param seed The random seed
+//' @param quietRun Should we print optimizer outputs during the optimization process
+//' @export
 // [[Rcpp::export]] 
 NumericVector cmaesOptim(const NumericVector x0, double sigma, Function optimFun, Function optimFunBlock, NumericVector lowerB, NumericVector upperB, int cmaAlgo, int lambda = -1, int maxEvals=1e3, double xtol=1e-12, double ftol=1e-12, int traceFreq=1, int seed=0, bool quietRun=false) 
 { 

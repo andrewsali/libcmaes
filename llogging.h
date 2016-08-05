@@ -23,7 +23,7 @@
 #define LLOGGING_H
 
 #include "libcmaes_config.h"
-
+#include <Rcpp.h>
 #include <iostream>
 
 namespace libcmaes
@@ -35,13 +35,13 @@ namespace libcmaes
 
   static std::ostream nullstream(0);
 
-inline std::ostream& LOG(const std::string &severity,std::ostream &out=std::cout)
+inline std::ostream& LOG(const std::string &severity,std::ostream &out=Rcpp::Rcout)
 {
   out << severity << " - ";
   return out;
 }
 
-inline std::ostream& LOG_IF(const std::string &severity,const bool &condition,std::ostream &out=std::cout)
+inline std::ostream& LOG_IF(const std::string &severity,const bool &condition,std::ostream &out=Rcpp::Rcout)
 {
   if (condition)
     return LOG(severity,out);

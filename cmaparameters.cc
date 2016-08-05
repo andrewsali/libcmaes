@@ -86,7 +86,7 @@ namespace libcmaes
     _weights /= sum_weights;
 
     //debug
-    //std::cerr << "weights: " << _weights << std::endl;
+    //Rcpp::Rcerr << "weights: " << _weights << std::endl;
     //debug
     
     _muw = sum_weights*sum_weights / sq_weights;
@@ -164,7 +164,7 @@ namespace libcmaes
   {
     if (this->_algo != 12 && this->_algo != 13 && this->_algo != 14)
       {
-	std::cerr << "[Warning]: set_vd on non VD algorithm " << this->_algo << ". Not activating VD update\n";
+	Rcpp::Rcerr << "[Warning]: set_vd on non VD algorithm " << this->_algo << ". Not activating VD update\n";
 	return;
       }
     _vd = true;
