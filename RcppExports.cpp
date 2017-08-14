@@ -31,13 +31,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP Rlibcmaes_cmaesOptim(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP Rlibcmaes_rcpp_hello_world();
-
 static const R_CallMethodDef CallEntries[] = {
     {"_Rlibcmaes_cmaesOptim", (DL_FUNC) &_Rlibcmaes_cmaesOptim, 14},
-    {"Rlibcmaes_cmaesOptim",       (DL_FUNC) &Rlibcmaes_cmaesOptim,       14},
-    {"Rlibcmaes_rcpp_hello_world", (DL_FUNC) &Rlibcmaes_rcpp_hello_world,  0},
     {NULL, NULL, 0}
 };
 
